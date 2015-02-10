@@ -1,12 +1,13 @@
-
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url
 from django.conf import settings
+from . import views
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Example:
     # (r'^{{ project_name }}/', include('{{ project_name }}.foo.urls')),
 
@@ -15,11 +16,14 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # (r'^admin/', include(admin.site.urls)),
+
+    # search request
+    url(r'^search?', views.search),
 )
 
 if settings.DEBUG:
-    urlpatterns += patterns('',
+    urlpatterns += patterns(
+        '',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve',
          {'document_root': settings.MEDIA_ROOT}),
     )
-
