@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from . import views
+from django.http import HttpResponseRedirect
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -19,6 +20,9 @@ urlpatterns = patterns(
 
     # search request
     url(r'^search?', views.search),
+    url(r'^$', lambda r: HttpResponseRedirect('index.html')),
+    url(r'^(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.FRONTEND_APP_PATH}),
 )
 
 if settings.DEBUG:
