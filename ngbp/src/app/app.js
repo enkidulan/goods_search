@@ -1,13 +1,15 @@
 angular.module( 'ngBoilerplate', [
   'templates-app',
   'templates-common',
-  'ngBoilerplate.home',
-  'ngBoilerplate.about',
-  'ui.router'
+  // 'ngBoilerplate.home',
+  // 'ngBoilerplate.about',
+  'ngBoilerplate.search',
+  'ui.router',
+  'ui.bootstrap'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
-  $urlRouterProvider.otherwise( '/home' );
+  $urlRouterProvider.otherwise( '/search' );
 })
 
 .run( function run () {
