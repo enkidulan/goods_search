@@ -20,11 +20,17 @@ def search(request):
             break
         response_data.append({
             'title': product.title,
-            'image': product.small_image_url,
+            'medium_image_url': product.medium_image_url,
+            'large_image_url': product.large_image_url,
             'price': product.price_and_currency[0],
             'currency': product.price_and_currency[1],
             'manufacturer': product.manufacturer,
             'publisher': product.publisher,
+            'offer_url': product.offer_url,
+            'isbn': product.isbn,
+            'editorial_review': product.editorial_review,
+            # 'publication_date': product.publication_date,
+            'reviews': product.reviews,
         })
     # if foo:
     #     return HttpResponseNotFound('<h1>Page not found</h1>')
