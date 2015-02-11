@@ -1,0 +1,36 @@
+<div class="row">
+<form name="searchForm" class="search-form" ng-submit="search()">
+  <div class="input-group">
+    <div class="input-group-btn">
+      <span class="dropdown" dropdown>
+        <a href class="btn btn-default dropdown-toggle" dropdown-toggle>
+          {{(category !== null)? category : 'Category'}}
+        </a>
+        <ul class="dropdown-menu">
+          <li
+            ng-repeat="category in categories"
+            ng-click="set_category(category)">
+            {{category}}
+          </li>
+        </ul>
+      </span>
+    </div>
+    <input type="text" class="form-control" ng-model="keywords" placeholder="Search for...">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="Submit">Search</button>
+
+    </span>
+  </div>
+</form>
+</div>
+<div class="row">
+  <div class="list-group">
+    <a href
+       class="list-group-item"
+       ng-repeat="item in search_results">
+       <search-result-item item="item">
+       </search-result-item>
+    </a>
+  </div>
+
+</div>
