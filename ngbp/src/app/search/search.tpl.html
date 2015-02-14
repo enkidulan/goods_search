@@ -1,36 +1,85 @@
 <div class="row">
 <form name="searchForm" class="search-form" ng-submit="search()">
-  <div class="input-group">
+  <div class="input-group input-group-lg">
     <div class="input-group-btn">
-      <span class="dropdown" dropdown>
-        <a href class="btn btn-default dropdown-toggle" dropdown-toggle>
-          {{(category !== null)? category : 'Category'}}
-        </a>
-        <ul class="dropdown-menu">
-          <li
-            ng-repeat="category in categories"
-            ng-click="set_category(category)">
-            {{category}}
-          </li>
-        </ul>
-      </span>
+      <button class="btn btn-default categories-button" ng-click="isCollapsed = !isCollapsed">
+          {{(category !== null)? 'Category: ' + category : 'Category'}}
+      </button>
     </div>
-    <input type="text" class="form-control" ng-model="keywords" placeholder="Search for...">
+    <input type="text" class="form-control " ng-model="keywords" placeholder="Search for...">
     <span class="input-group-btn">
       <button class="btn btn-default" type="Submit">Search</button>
-
     </span>
   </div>
 </form>
 </div>
+
 <div class="row">
-  <div class="list-group">
-    <a href
-       class="list-group-item"
-       ng-repeat="item in search_results">
-       <search-result-item item="item">
-       </search-result-item>
-    </a>
+<div collapse="isCollapsed">
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-md-2" ng-repeat="category in categories"
+         ng-click="set_category(category)">
+         <button type="button" class="btn btn-link" href>{{category}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+ <hr />
+
+<div class="row">
+
+  <div class="col-md-offset-3 col-md-3">
+      <slider floor="0" ceiling="1000" ng-model-low="price_range.MinimumPrice" ng-model-high="price_range.MaximumPrice"></slider>
+      <span class="price">Price: From {{price_range.MinimumPrice}} to {{price_range.MaximumPrice}}</span>
   </div>
 
+  <div class="col-md-3">
+    <div class="btn-group pull-right" dropdown>
+      <button type="button" class="btn btn-primary">Sorted by: {{avalivable_sorting[sort_by]}}</button>
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+        <span class="caret"></span>
+        <span class="sr-only"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="(field_name, title) in avalivable_sorting"
+            ng-click="set_sorting_by(field_name)">
+          <a href>{{title}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div cg-busy="search_promice">
+    <div ng-show="!displayed_results.length"
+         class="search_placeholder">
+         Search results will be displayed here...
+
+    </div>
+    <div ng-show="displayed_results.length">
+      <div class="list-group">
+        <a href
+           class="list-group-item"
+           ng-repeat="item in displayed_results"
+           ui-sref="item({ id: item.ASIN })">
+           <search-result-item item="item"></search-result-item>
+        </a>
+      </div>
+      <div cg-busy="pagination_promice">
+        <pagination
+          total-items="pagination.total_items"
+          ng-model="pagination.current_page"
+          max-size="pagination.max_size"
+          items-per-page="pagination.items_per_page"
+          class="pagination-sm"
+          ng-change="pageChanged()"
+          rotate="false">
+        </pagination>
+      </div>
+    </div>
+  </div>
 </div>
