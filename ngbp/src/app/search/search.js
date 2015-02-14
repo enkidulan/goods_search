@@ -14,6 +14,7 @@
  */
 angular.module( 'ngBoilerplate.search', [
   'ui.router',
+  'ui.slider',
   'plusOne'
 ])
 
@@ -49,43 +50,81 @@ angular.module( 'ngBoilerplate.search', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'SearchCtrl', function SearchController( $scope, $http ) {
+.controller( 'SearchCtrl', function SearchController( $scope, $http, $rootScope ) {
   $scope.categories = [
-    'Lamps & Light Fixtures',
-    'Amazon Instant Video',
-    'Men',
-    'Cycling',
-    'Musical Instruments',
-    'Shop Instant Video',
-    'Kitchen & Dining',
-    'Leisure Sports & Game Room',
-    'Reload Your Amazon Balance',
-    'Wine',
-    'Desktops & Monitors',
-    'For Baby',
-    'Kindle Paperwhite',
-    'Automotive Tools & Equipment',
-    'Appstore for Android',
+    'All',
+    'Apparel',
     'Appliances',
-    'Audible Membership',
-    'Team Sports',
-    'Janitorial',
-    'Subscribe & Save',
-    'Amazon Elements',
-    'Fire Tablets',
-    'Sell Us Your Books',
-    'Unlimited Photo Storage',
-    'Printers & Ink',
-    'Video Games',
-    'Computer Parts & Components',
-    'All Beauty'
+    'Automotive',
+    'Baby',
+    'Beauty',
+    'Blended',
+    'Books',
+    'Classical',
+    'DVD',
+    'Electronics',
+    'ForeignBooks',
+    'GiftCards',
+    'Grocery',
+    'HealthPersonalCare',
+    'Hobbies',
+    'HomeImprovement',
+    'Jewelry',
+    'KindleStore',
+    'Kitchen',
+    'MP3Downloads',
+    'MobileApps',
+    'Music',
+    'MusicTracks',
+    'MusicalInstruments',
+    'OfficeProducts',
+    'PCHardware',
+    'PetSupplies',
+    'Shoes',
+    'Software',
+    'SportingGoods',
+    'Toys',
+    'VHS',
+    'Video',
+    'VideoDownload',
+    'VideoGames',
+    'Watches'
   ];
 
-  $scope.category = null;
+  $scope.isCollapsed = true;
+
+  $scope.pagination = {
+    current_page: 1,
+    total_items: 1,
+    max_size: 10,
+    items_per_page: 5
+  };
+  $scope.displayed_results = [];
+  $scope.pageChanged = function(){
+    var start = ($scope.pagination.current_page - 1) * $scope.pagination.items_per_page;
+    var end = start + $scope.pagination.items_per_page;
+    $scope.displayed_results = $rootScope.search_results.slice(start, end);
+  };
+
+  $scope.avalivable_sorting = {
+    // 'relevancerank': 'Best Match',
+    // 'salesrank': 'Popular'
+    'price': 'Price: Lowest first',
+    '-price': 'Price: Highest first'
+  };
+
+  $scope.sort_by = 'relevancerank';
+  $scope.set_sorting_by = function(field){
+    $scope.sort_by = field;
+    $scope.search();
+  };
+
+  $scope.category = 'All';
   $scope.keywords = '';
-  $scope.search_results = [];
   $scope.set_category = function(category) {
     $scope.category = category;
+    $scope.search();
+    $scope.isCollapsed = true;
   };
 
   $scope.toggleDropdown = function($event) {
@@ -94,11 +133,42 @@ angular.module( 'ngBoilerplate.search', [
     $scope.status.isopen = !$scope.status.isopen;
   };
 
-  $scope.search = function() {
+  $scope.price_range = {
+    MinimumPrice: 0,
+    MaximumPrice: 1000
+  };
+
+  $scope.$watch('price_range.MinimumPrice', function(newValue, oldValue) {
+   $scope.search();
+  });
+  $scope.$watch('price_range.MinimumPrice', function(newValue, oldValue) {
+   $scope.search();
+  });
+
+  $scope.search_promice = null;
+  $scope.pagination_promice = null;
+
+  $scope.search = function(preview) {
+    var params = '';
+    params += '?Keywords=' + $scope.keywords;
+    params += '&SearchIndex=' + $scope.category;
+    params += '&MaximumPrice=' + $scope.price_range.MaximumPrice * 10;
+    params += '&MinimumPrice=' + $scope.price_range.MinimumPrice * 10;
+    params += '&Sort=' + $scope.sort_by;
     if ($scope.keywords) {
-      $http.get('/search?keywords=' + $scope.keywords).
+      $scope.search_promice = $http.get('/search' + params + '&preview=true').
           success(function(data, status, headers, config) {
-            $scope.search_results = data;
+            $rootScope.search_results = data;
+            $scope.pagination.total_items = 100;
+            $scope.pagination.current_page = 1;
+            $scope.displayed_results = $rootScope.search_results.slice(0, $scope.pagination.items_per_page);
+            $scope.pagination_promice = $http.get('/search' + params).
+              success(function(data, status, headers, config) {
+                $rootScope.search_results = data;
+                $scope.pagination.total_items = $rootScope.search_results.length;
+                // this callback will be called asynchronously
+                // when the response is available
+              });
             // this callback will be called asynchronously
             // when the response is available
           }).

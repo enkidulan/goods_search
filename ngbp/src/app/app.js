@@ -4,8 +4,10 @@ angular.module( 'ngBoilerplate', [
   // 'ngBoilerplate.home',
   // 'ngBoilerplate.about',
   'ngBoilerplate.search',
+  'ngBoilerplate.item',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'cgBusy'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
@@ -16,6 +18,8 @@ angular.module( 'ngBoilerplate', [
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+  $scope.search_results = [];
+
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
