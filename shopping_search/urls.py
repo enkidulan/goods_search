@@ -20,6 +20,7 @@ urlpatterns = patterns(
 
     # search request
     url(r'^search?', views.search),
+    url(r'^item?', views.item),
     url(r'^$', lambda r: HttpResponseRedirect('index.html')),
     url(r'^(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.FRONTEND_APP_PATH}),
