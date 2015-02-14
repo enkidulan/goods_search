@@ -51,6 +51,12 @@ aws_secret and aws_associate_tag in configuration section. You can
 register and get API keys on AWSECommerce page -
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/Welcome.html
 
+
+**Important links**:
+
+    * Item search API: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/ItemSearch.html
+    * Locale Information for the JP Marketplace: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/LocaleJP.html
+
 TODO: add more instruction, make unified set up; add other services
 
 Project structure
