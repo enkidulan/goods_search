@@ -71,7 +71,7 @@ angular.module( 'ngBoilerplate.search', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'SearchCtrl', function SearchController( $scope, $http, $rootScope, $timeout ) {
+.controller( 'SearchCtrl', function SearchController( $scope, $http, $state, $rootScope, $timeout ) {
   $scope.categories = [
     'All',
     'Apparel',
@@ -203,6 +203,7 @@ angular.module( 'ngBoilerplate.search', [
     params += '&Condition=' + $scope.condition;
 
     if ($scope.keywords) {
+      $state.go('search.results');
       $scope.search_promice = $http.get('/search' + params + '&preview=true').
           success(function(data, status, headers, config) {
             $rootScope.search_results = data;
