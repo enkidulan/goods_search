@@ -1,0 +1,14 @@
+*.sw*
+*~
+build/
+node_modules/
+.amazon.cfg
+.installed.cfg
+.mr.developer.cfg
+bin/
+eggs/
+ngbp/vendor/
+parts/
+sample.sqlite3
+*.pyc
+__pycache__
