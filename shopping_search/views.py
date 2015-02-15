@@ -8,19 +8,18 @@ amazon = API(cfg=os.path.join(PROJECT_ROOT, '.amazon.cfg'))
 
 
 def search(request):
-    results = amazon.item_search(
-        request.GET.get('SearchIndex', 'All'),
+    amazon_request_params = dict(
         Keywords=request.GET.get('Keywords', ''),
         MaximumPrice=request.GET.get('MaximumPrice'),
         MinimumPrice=request.GET.get('MinimumPrice'),
         Sort=request.GET.get('Sort', None),
+        Condition=request.GET.get('Condition', None),
         ResponseGroup='ItemAttributes,OfferSummary,Images,Reviews,EditorialReview')
-        # ResponseGroup='Large')
-
+    print amazon_request_params
+    results = amazon.item_search(
+        request.GET.get('SearchIndex', 'All'), **amazon_request_params)
     response_data = []
     for i, product in enumerate(results):
-        if request.GET.get('preview', '') and i == 10:
-            break
         try:
             response_data.append({
                 'price': product.OfferSummary.LowestNewPrice.FormattedPrice.text,
@@ -44,8 +43,9 @@ def search(request):
                     {'value': i.Content.text,
                      'name': i.Source.text}
                     for i in product.EditorialReviews.EditorialReview]
-
             })
+            if request.GET.get('preview', '') and i == 10:
+                break
         except:
             pass
     return HttpResponse(
