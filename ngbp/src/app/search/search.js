@@ -199,8 +199,8 @@ angular.module( 'ngBoilerplate.search', [
     params += '&SearchIndex=' + $scope.category;
     params += '&MaximumPrice=' + $scope.price_range.MaximumPrice * 100;
     params += '&MinimumPrice=' + $scope.price_range.MinimumPrice * 100;
-    params += '&Sort=' + $scope.sort_by;
-    params += '&Condition=' + $scope.condition;
+    params += ($scope.sort_by) ? '&Sort=' + $scope.sort_by : '';
+    params += ($scope.condition) ? '&Condition=' + $scope.condition : '';
 
     if ($scope.keywords) {
       $state.go('search.results');
