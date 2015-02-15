@@ -1,0 +1,28 @@
+<div cg-busy="search_promice">
+  <div ng-show="!displayed_results.length"
+       class="search_placeholder">
+       Search results will be displayed here...
+
+  </div>
+  <div ng-show="displayed_results.length">
+    <div class="list-group">
+      <a href
+         class="list-group-item"
+         ng-repeat="item in displayed_results"
+         ui-sref="search.item({ id: item.ASIN })">
+         <search-result-item item="item"></search-result-item>
+      </a>
+    </div>
+    <div cg-busy="pagination_promice">
+      <pagination
+        total-items="pagination.total_items"
+        ng-model="pagination.current_page"
+        max-size="pagination.max_size"
+        items-per-page="pagination.items_per_page"
+        class="pagination-sm"
+        ng-change="pageChanged()"
+        rotate="false">
+      </pagination>
+    </div>
+  </div>
+</div>
