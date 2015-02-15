@@ -71,7 +71,7 @@ angular.module( 'ngBoilerplate.search', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'SearchCtrl', function SearchController( $scope, $http, $rootScope ) {
+.controller( 'SearchCtrl', function SearchController( $scope, $http, $rootScope, $timeout ) {
   $scope.categories = [
     'All',
     'Apparel',
@@ -130,13 +130,26 @@ angular.module( 'ngBoilerplate.search', [
   $scope.avalivable_sorting = {
     // 'relevancerank': 'Best Match',
     // 'salesrank': 'Popular'
+    '': 'Default',
     'price': 'Price: Lowest first',
     '-price': 'Price: Highest first'
   };
-
-  $scope.sort_by = 'relevancerank';
+  $scope.sort_by = '';
   $scope.set_sorting_by = function(field){
     $scope.sort_by = field;
+    $scope.search();
+  };
+
+  $scope.avalivable_conditions = {
+    '': "New",
+    Used: "Used",
+    Collectible: "Collectible",
+    Refurbished: "Refurbished",
+    All : "All "
+  };
+  $scope.condition = '';
+  $scope.set_condition = function(field){
+    $scope.condition = field;
     $scope.search();
   };
 
@@ -159,11 +172,22 @@ angular.module( 'ngBoilerplate.search', [
     MaximumPrice: 1000
   };
 
-  $scope.$watch('price_range.MinimumPrice', function(newValue, oldValue) {
-   $scope.search();
+  var update_is_queued = false;
+  var update_search = function(){
+    $scope.search();
+    update_is_queued = false;
+  };
+  $scope.$watch('price_range.MaximumPrice', function(newValue, oldValue) {
+    if (!update_is_queued){
+      update_is_queued = true;
+      $timeout(update_search, 1000);
+    }
   });
   $scope.$watch('price_range.MinimumPrice', function(newValue, oldValue) {
-   $scope.search();
+    if (!update_is_queued){
+      update_is_queued = true;
+      $timeout(update_search, 1000);
+    }
   });
 
   $scope.search_promice = null;
@@ -173,9 +197,11 @@ angular.module( 'ngBoilerplate.search', [
     var params = '';
     params += '?Keywords=' + $scope.keywords;
     params += '&SearchIndex=' + $scope.category;
-    params += '&MaximumPrice=' + $scope.price_range.MaximumPrice * 10;
-    params += '&MinimumPrice=' + $scope.price_range.MinimumPrice * 10;
+    params += '&MaximumPrice=' + $scope.price_range.MaximumPrice * 100;
+    params += '&MinimumPrice=' + $scope.price_range.MinimumPrice * 100;
     params += '&Sort=' + $scope.sort_by;
+    params += '&Condition=' + $scope.condition;
+
     if ($scope.keywords) {
       $scope.search_promice = $http.get('/search' + params + '&preview=true').
           success(function(data, status, headers, config) {
