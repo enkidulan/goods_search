@@ -1,30 +1,34 @@
 <div class="row">
-<form name="searchForm" class="search-form" ng-submit="search()">
-  <div class="input-group input-group-lg">
-    <div class="input-group-btn">
-      <button class="btn btn-default categories-button" ng-click="isCollapsed = !isCollapsed">
+
+<div class="input-group input-group-lg">
+  <span class="input-group-btn">
+      <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
           {{(category !== null)? 'Category: ' + category : 'Category'}}
       </button>
-    </div>
-    <input type="text" class="form-control " ng-model="keywords" placeholder="Search for...">
+  </span>
+  <form name="searchForm" ng-submit="search()" class="input-group-lg">
+    <input ng-model="keywords" type="text" class="form-control">
     <span class="input-group-btn">
-      <button class="btn btn-default" type="Submit">Search</button>
+        <button type="submit" class="btn btn-default">Search</button>
     </span>
-  </div>
-</form>
+  </form>
 </div>
 
+
+</div>
+
+
 <div class="row">
-<div collapse="isCollapsed">
-  <div class="well well-sm">
-    <div class="row">
-      <div class="col-md-2" ng-repeat="category in categories"
-         ng-click="set_category(category)">
-         <button type="button" class="btn btn-link" href>{{category}}</button>
+  <div collapse="isCollapsed" class="categories">
+    <div class="well well-sm">
+      <div class="row">
+        <div class="col-md-2" ng-repeat="category in categories"
+           ng-click="set_category(category)">
+           <button type="button" class="btn btn-link" href>{{category}}</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
  <hr />

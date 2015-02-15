@@ -4,7 +4,6 @@ angular.module( 'ngBoilerplate', [
   // 'ngBoilerplate.home',
   // 'ngBoilerplate.about',
   'ngBoilerplate.search',
-  'ngBoilerplate.item',
   'ui.router',
   'ui.bootstrap',
   'cgBusy'

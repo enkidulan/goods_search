@@ -169,7 +169,7 @@ angular.module( 'ngBoilerplate.search', [
   $scope.search_promice = null;
   $scope.pagination_promice = null;
 
-  $scope.search = function(preview) {
+  $scope.search = function() {
     var params = '';
     params += '?Keywords=' + $scope.keywords;
     params += '&SearchIndex=' + $scope.category;
