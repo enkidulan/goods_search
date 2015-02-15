@@ -14,12 +14,12 @@ def search(request):
         MaximumPrice=request.GET.get('MaximumPrice'),
         MinimumPrice=request.GET.get('MinimumPrice'),
         Sort=request.GET.get('Sort', None),
-        ResponseGroup='Large')
+        ResponseGroup='ItemAttributes,OfferSummary,Images,Reviews,EditorialReview')
+        # ResponseGroup='Large')
 
     response_data = []
-    # import pdb; pdb.set_trace()
     for i, product in enumerate(results):
-        if request.GET.get('preview', '') and i == 5:
+        if request.GET.get('preview', '') and i == 10:
             break
         try:
             response_data.append({
@@ -32,18 +32,18 @@ def search(request):
                 'Title': product.ItemAttributes.Title.text,
                 'Manufacturer': product.ItemAttributes.Manufacturer.text,
                 'images': [
-                    {'SmallImage': i.ImageSet.SmallImage.URL.text,
-                     'LargeImage': i.ImageSet.LargeImage.URL.text}
-                    for i in product.ImageSets],
+                    {'SmallImage': i.SmallImage.URL.text,
+                     'LargeImage': i.LargeImage.URL.text}
+                    for i in product.ImageSets.ImageSet],
                 'CustomerReviews': product.CustomerReviews.IFrameURL.text,
                 'ItemAttributes': [
                     {'name': k, 'value': v.text}
                     for k, v in product.ItemAttributes.__dict__.items()
                     if getattr(v, 'text', None) and k != 'Title'],
                 'EditorialReview': [
-                    {'value': i.EditorialReview.Content.text,
-                     'name': i.EditorialReview.Source.text}
-                    for i in product.EditorialReviews]
+                    {'value': i.Content.text,
+                     'name': i.Source.text}
+                    for i in product.EditorialReviews.EditorialReview]
 
             })
         except:
@@ -53,9 +53,7 @@ def search(request):
 
 
 def item(request):
-    import pdb; pdb.set_trace()
-
-
+    pass
     # if foo:
     #     return HttpResponseNotFound('<h1>Page not found</h1>')
     # else:
