@@ -14,8 +14,7 @@
  */
 angular.module( 'ngBoilerplate.search', [
   'ui.router',
-  'ui.slider',
-  'plusOne'
+  'ui.slider'
 ])
 
 /**
@@ -97,7 +96,7 @@ angular.module( 'ngBoilerplate.search', [
     current_page: 1,
     total_items: 1,
     max_size: 10,
-    items_per_page: 5
+    items_per_page: 10
   };
   $scope.displayed_results = [];
   $scope.pageChanged = function(){
