@@ -55,7 +55,7 @@ def search(request):
         if data is None:
             continue
         response_data.append(data)
-        if request.GET.get('preview', '') and i == 10:
+        if request.GET.get('preview', '') and len(response_data) >= 10:
             break
     return HttpResponse(
         json.dumps(response_data), content_type="application/json")
