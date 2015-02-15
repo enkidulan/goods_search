@@ -1,18 +1,19 @@
 <!-- Begin search form  -->
 <div class="row">
+  <form name="searchForm" ng-submit="search()">
   <div class="input-group input-group-lg">
     <span class="input-group-btn">
-        <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
+        <a class="btn btn-default" ng-click="isCollapsed = !isCollapsed"
+           href>
             {{(category !== null)? 'Category: ' + category : 'Category'}}
-        </button>
+        </a>
     </span>
-    <form name="searchForm" ng-submit="search()" class="input-group-lg">
       <input ng-model="keywords" type="text" class="form-control">
       <span class="input-group-btn">
           <button type="submit" class="btn btn-default">Search</button>
       </span>
-    </form>
   </div>
+  </form>
 </div>
 <!-- End search form  -->
 
