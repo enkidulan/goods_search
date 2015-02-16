@@ -46,7 +46,6 @@ def search(request):
         Sort=request.GET.get('Sort', None),
         Condition=request.GET.get('Condition', None),
         ResponseGroup='ItemAttributes,OfferSummary,Images,Reviews,EditorialReview')
-    print amazon_request_params
     results = amazon.item_search(
         request.GET.get('SearchIndex', 'All'), **amazon_request_params)
     response_data = []
