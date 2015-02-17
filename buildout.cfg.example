@@ -7,4 +7,4 @@ extends =
 access_key =
 secret_key =
 associate_tag =
-locale =
+locale = us

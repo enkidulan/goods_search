@@ -12,3 +12,5 @@ parts/
 sample.sqlite3
 *.pyc
 __pycache__
+buildout.cfg
+ngbp/bin
