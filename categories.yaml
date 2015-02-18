@@ -1,0 +1,162 @@
+
+    # 2513  # 'レジャー、アウトドア'  # Leisure, outdoor
+
+    # 2506  # '家具、インテリア'  # Furniture, interior
+    # 2514  # '自転車、車、バイク'  # Bicycle, car, bike
+    # 2503  # 'DIY、工具、文具'  # DIY, tools, stationery
+    # 2507  # '花、ガーデニング'  # Flowers, gardening
+    # 2504  # 'AV機器、カメラ'  # AV equipment, camera
+
+
+
+
+
+
+All:
+    Title: All
+    amazon: All
+    yahoo: 1  # 'All'  # All
+Apparel:
+    Title: Apparel
+    amazon: Apparel
+    yahoo: 13457  # 'ファッション'  # Fashion
+Appliances:
+    Title: Appliances
+    amazon: Appliances
+    yahoo: 2505  # '家電'  # Consumer electronics
+Automotive:
+    Title: Automotive
+    amazon: Automotive
+    yahoo: 2511  # 'ゲーム、おもちゃ'  # Games, toys
+Baby:
+    Title: Baby
+    amazon: Baby
+    yahoo: 2497  # 'ベビー、キッズ、マタニティ'  # Baby, Kids, Maternity
+Beauty:
+    Title: Beauty
+    amazon: Beauty
+    yahoo: 2501  # 'コスメ、香水'  # Cosmetics, perfume
+# Blended:
+#     Title: Blended
+#     amazon: Blended
+#     yahoo:
+Books:
+    Title: Books
+    amazon: Books
+    yahoo: 10002  # '本、雑誌、コミック'  # Books, magazines, comics
+# Classical:
+#     Title: Classical
+#     amazon: Classical
+#     yahoo:
+DVD:
+    Title: DVD
+    amazon: DVD
+    yahoo: 2517  # 'DVD、映像ソフト'  # DVD, video software
+Electronics:
+    Title: Electronics
+    amazon: Electronics
+    yahoo: 2505  # '家電'  # Consumer electronics
+# ForeignBooks:
+#     Title: ForeignBooks
+#     amazon: ForeignBooks
+#     yahoo:
+# GiftCards:
+#     Title: GiftCards
+#     amazon: GiftCards
+#     yahoo:
+Grocery:
+    Title: Grocery
+    amazon: Grocery
+    yahoo: 2498  # '食品'  # Food
+HealthPersonalCare:
+    Title: HealthPerson
+    amazon: HealthPerson
+    yahoo: 2500  # 'ダイエット、健康' # Diet, health
+Hobbies:
+    Title: Hobbies
+    amazon: Hobbies
+    yahoo: 2510  # '楽器、趣味、学習'  # Musical instruments, hobby, learning
+# HomeImprovement:
+#     Title: HomeImprovem
+#     amazon: HomeImprovem
+#     yahoo:
+# Jewelry:
+#     Title: Jewelry
+#     amazon: Jewelry
+#     yahoo:
+# KindleStore:
+#     Title: KindleStore
+#     amazon: KindleStore
+#     yahoo:
+Kitchen:
+    Title: Kitchen
+    amazon: Kitchen
+    yahoo: 2508  # 'キッチン、生活雑貨、日用品'  # Kitchen, household goods, daily necessities
+# MP3Downloads:
+#     Title: MP3Downloads
+#     amazon: MP3Downloads
+#     yahoo:
+# MobileApps:
+#     Title: MobileApps
+#     amazon: MobileApps
+#     yahoo:
+Music:
+    Title: Music
+    amazon: Music
+    yahoo: 2516  # 'CD、音楽ソフト、チケット'  # CD, music software, ticket
+MusicTracks:
+    Title: MusicTracks
+    amazon: MusicTracks
+    yahoo: 2516  # 'CD、音楽ソフト、チケット'  # CD, music software, ticket
+MusicalInstruments:
+    Title: MusicalInstr
+    amazon: MusicalInstr
+    yahoo: 2510  # '楽器、趣味、学習'  # Musical instruments, hobby, learning
+# OfficeProducts:
+#     Title: OfficeProduc
+#     amazon: OfficeProduc
+#     yahoo:
+PCHardware:
+    Title: PCHardware
+    amazon: PCHardware
+    yahoo: 2502  # 'パソコン、周辺機器'  # PC, peripherals
+PetSupplies:
+    Title: PetSupplies
+    amazon: PetSupplies
+    yahoo: 2509  # 'ペット用品、生き物'  # Pet Supplies, creatures
+# Shoes:
+#     Title: Shoes
+#     amazon: Shoes
+#     yahoo:
+# Software:
+#     Title: Software
+#     amazon: Software
+#     yahoo:
+SportingGoods:
+    Title: SportingGood
+    amazon: SportingGood
+    yahoo: 2512  # 'スポーツ'  # Sport
+Toys:
+    Title: Toys
+    amazon: Toys
+    yahoo: 2511  # 'ゲーム、おもちゃ'  # Games, toys
+# VHS:
+#     Title: VHS
+#     amazon: VHS
+#     yahoo:
+# Video:
+#     Title: Video
+#     amazon: Video
+#     yahoo:
+# VideoDownload:
+#     Title: VideoDownloa
+#     amazon: VideoDownloa
+#     yahoo:
+# VideoGames:
+#     Title: VideoGames
+#     amazon: VideoGames
+#     yahoo:
+# Watches:
+#     Title: Watches
+#     amazon: Watches
+#     yahoo:

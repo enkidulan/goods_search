@@ -2,9 +2,17 @@
 # Django settings for shopping_search project.
 
 import os
-
 import os.path
+import yaml
+import configparser
+
+
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CATEGORIES = yaml.load(
+    open(os.path.join(PROJECT_ROOT, 'categories.yaml'), 'rb').read()
+)
+SERVICES_CONFIG = configparser.ConfigParser()
+SERVICES_CONFIG.read(os.path.join(PROJECT_ROOT, '.services_config.cfg'))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

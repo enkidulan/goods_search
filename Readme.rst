@@ -65,6 +65,18 @@ or generate keys on https://console.aws.amazon.com/iam/home#security_credential
 
 TODO: add more instruction, make unified set up; add other services
 
+
+Yahoo! Japan Shopping API
+-------------------------
+
+What do you need to use Yahoo! Japan Shopping API:
+    1. Get Yahoo! JAPAN ID (register on https://account.edit.yahoo.co.jp/registration)
+    2. Register Application to get Application ID and Secret.
+    3. In buildout.cfg file set appid variable to your Application ID
+
+**Important links**:
+    * Shopping API: http://developer.yahoo.co.jp/webapi/shopping/
+
 Project structure
 =================
 

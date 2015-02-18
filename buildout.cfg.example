@@ -8,3 +8,7 @@ access_key =
 secret_key =
 associate_tag =
 locale = us
+
+
+[yahoo_config]
+appid =

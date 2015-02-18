@@ -2,7 +2,7 @@
 *~
 build/
 node_modules/
-.amazon.cfg
+.services_config.cfg
 .installed.cfg
 .mr.developer.cfg
 bin/
@@ -14,3 +14,4 @@ sample.sqlite3
 __pycache__
 buildout.cfg
 ngbp/bin
+src/
