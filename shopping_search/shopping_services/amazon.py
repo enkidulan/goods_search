@@ -8,6 +8,7 @@ amazon = API(cfg=SERVICES_CONFIG['amazon'])
 def extract_data(product):
     try:
         data = {
+            'service': 'amazon',
             'price': product.OfferSummary.LowestNewPrice.FormattedPrice.text,
             'image': product.MediumImage.URL.text,
             'ASIN': product.ASIN.text,
@@ -36,22 +37,25 @@ def extract_data(product):
     return data
 
 
-def search(search_params):
-    amazon_request_params = dict(
-        Keywords=search_params.get('Keywords', ''),
-        MaximumPrice=search_params.get('MaximumPrice'),
-        MinimumPrice=search_params.get('MinimumPrice'),
-        Sort=search_params.get('Sort', None),
-        Condition=search_params.get('Condition', None),
-        ResponseGroup='ItemAttributes,OfferSummary,Images,Reviews,EditorialReview')
+def search(category, keywords, maximum_price,
+           minimum_price, sort, condition, is_preview):
     results = amazon.item_search(
-        search_params.get('SearchIndex', 'All'), **amazon_request_params)
+        category,
+        Keywords=keywords,
+        MaximumPrice=int(maximum_price) * 100,
+        MinimumPrice=int(minimum_price) * 100,
+        Sort=sort,
+        Condition=condition,
+        ResponseGroup='ItemAttributes,OfferSummary,Images,Reviews,EditorialReview'
+    )
     response_data = []
     for i, product in enumerate(results):
         data = extract_data(product)
         if data is None:
             continue
         response_data.append(data)
-        if search_params.get('preview', '') and len(response_data) >= 10:
+        if is_preview and len(response_data) >= 6:
+            break
+        elif len(response_data) >= 20:
             break
     return response_data

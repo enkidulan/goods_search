@@ -180,8 +180,8 @@ angular.module( 'ngBoilerplate.search', [
     var params = '';
     params += '?Keywords=' + $scope.keywords;
     params += '&SearchIndex=' + $scope.category;
-    params += '&MaximumPrice=' + $scope.price_range.MaximumPrice * 100;
-    params += '&MinimumPrice=' + $scope.price_range.MinimumPrice * 100;
+    params += '&MaximumPrice=' + $scope.price_range.MaximumPrice;
+    params += '&MinimumPrice=' + $scope.price_range.MinimumPrice;
     params += ($scope.sort_by) ? '&Sort=' + $scope.sort_by : '';
     params += ($scope.condition) ? '&Condition=' + $scope.condition : '';
 
