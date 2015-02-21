@@ -72,10 +72,21 @@ Yahoo! Japan Shopping API
 What do you need to use Yahoo! Japan Shopping API:
     1. Get Yahoo! JAPAN ID (register on https://account.edit.yahoo.co.jp/registration)
     2. Register Application to get Application ID and Secret.
-    3. In buildout.cfg file set appid variable to your Application ID
+    3. In buildout.cfg file set appid variable to your Application ID in yahoo_config section
 
 **Important links**:
     * Shopping API: http://developer.yahoo.co.jp/webapi/shopping/
+
+Rakuten Ichiba API
+------------------
+
+What do you need to use Rakuten Ichiba API:
+    1. Register if you don't have an account (https://grp02.id.rakuten.co.jp/rms/nid/registfwd)
+    2. Create application (https://webservice.rakuten.co.jp/app/create).
+    3. In buildout.cfg file set applicationId variable to your Application ID in rakuten_config section
+
+**Important links**:
+    * Ichiba Item Search API: https://webservice.rakuten.co.jp/api/ichibaitemsearch/
 
 Project structure
 =================

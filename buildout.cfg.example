@@ -12,3 +12,7 @@ locale = us
 
 [yahoo_config]
 appid =
+
+
+[rakuten_config]
+applicationId =

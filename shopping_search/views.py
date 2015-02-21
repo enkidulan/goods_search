@@ -3,6 +3,7 @@ from .settings import SERVICES_CONFIG, CATEGORIES
 import json
 from shopping_search.shopping_services.amazon import search as amazon_search
 from shopping_search.shopping_services.yahoo import search as yahoo_search
+from shopping_search.shopping_services.rakuten import search as rakuten_search
 import threading
 import queue
 import itertools
@@ -43,9 +44,11 @@ def services_mearging_search(request, services):
 
 def search(request):
     results = services_mearging_search(
-        request,
-        {'amazon': amazon_search,
-         'yahoo': yahoo_search}
+        request, {
+         'amazon': amazon_search,
+         'yahoo': yahoo_search,
+         'rakuten': rakuten_search,
+         }
     )
     return HttpResponse(
         json.dumps(results), content_type="application/json")
