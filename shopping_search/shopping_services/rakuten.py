@@ -4,6 +4,9 @@ import json
 import codecs
 from functools import wraps
 from furl import furl
+from uuid import uuid4
+from itertools import chain
+
 
 if sys.version_info.major == 2:
     from urllib2 import urlopen
@@ -78,43 +81,46 @@ rakuten = RakutenIchibaAPI(**SERVICES_CONFIG['rakuten'])
 
 def search(category, keywords, maximum_price,
            minimum_price, sort, condition, is_preview):
-
-    results = rakuten.item_search(
+    params = dict(
         genreId=category,
-        keyword=keywords,
-        maxPrice=maximum_price,
-        minPrice=minimum_price,
-        sort='+itemPrice' if sort == 'price' else '-itemPrice'
+        keyword=keywords
     )
-    responce = map(extract_data, results['Items'])
-    responce = tuple(filter(None, responce))
+    if maximum_price is not None:
+        params['maxPrice'] = int(float(maximum_price))
+    if minimum_price is not None:
+        params['minPrice'] = int(float(minimum_price))
+    if sort is not None:
+        params['sort'] = '+itemPrice' if sort == 'price' else '-itemPrice'
+
+    results = []
+    for i in range(1 if is_preview else 10):
+        result = rakuten.item_search(hits=30, page=i+1, **params)
+        result = map(extract_data, result.get('Items', []))
+        results.append(result)
+    responce = tuple(filter(None, chain(*results)))
     return responce
 
 
 def extract_data(product):
-    try:
-        data = {
-            'service': 'rakuten',
-            'price': product['itemPrice'],
-            'image': product['mediumImageUrls'][0],
-            'ASIN': product['itemCode'],
-            # 'ProductId': product['itemCode'],
-            'DetailPageURL': product['itemUrl'],
-            'Label': product['itemCaption'],
-            'EditorialReview': [
-                {'name': 'Description',
-                 'value': product['itemCaption']}],
-            'ProductGroup': product['genreId'],  # get it name to display
-            'Title': product['itemName'],
-            'Manufacturer': product['shopName'],
-            'CustomerReviews': product['itemUrl'],  # XXX: no such thing
-            'images': [
-                {'SmallImage': small,
-                 'LargeImage': small.rsplit('?', 1)[0]}
-                for small in product['smallImageUrls']],
-            'ItemAttributes': [],
-        }
-    except Exception as exp:
-        # XXX: !!!!
-        return
+    data = {
+        'service': 'rakuten',
+        'price': product.get('itemPrice'),
+        'image': product.get('mediumImageUrls', [])[0],
+        'ASIN': product.get('itemCode') or str(uuid4()),
+        # 'ProductId': product['itemCode'],
+        'DetailPageURL': product.get('itemUrl'),
+        'Label': product.get('itemCaption'),
+        'EditorialReview': [
+            {'name': 'Description',
+             'value': product.get('itemCaption')}],
+        'ProductGroup': product.get('genreId'),  # get it name to display
+        'Title': product.get('itemName'),
+        'Manufacturer': product.get('shopName'),
+        'CustomerReviews': product.get('itemUrl'),  # XXX: no such thing
+        'images': [
+            {'SmallImage': small,
+             'LargeImage': small.rsplit('?', 1)[0]}
+            for small in product.get('smallImageUrls', [])],
+        'ItemAttributes': [],
+    }
     return data

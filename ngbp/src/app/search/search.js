@@ -117,7 +117,7 @@ angular.module( 'ngBoilerplate.search', [
     'price': 'Price: Lowest first',
     '-price': 'Price: Highest first'
   };
-  $scope.sort_by = '';
+  $scope.sort_by = null;
   $scope.set_sorting_by = function(field){
     $scope.sort_by = field;
     $scope.search();
@@ -151,8 +151,8 @@ angular.module( 'ngBoilerplate.search', [
   };
 
   $scope.price_range = {
-    MinimumPrice: 0,
-    MaximumPrice: 1000
+    MinimumPrice: null,
+    MaximumPrice: null
   };
 
   var update_is_queued = false;
@@ -180,8 +180,8 @@ angular.module( 'ngBoilerplate.search', [
     var params = '';
     params += '?Keywords=' + $scope.keywords;
     params += '&SearchIndex=' + $scope.category;
-    params += '&MaximumPrice=' + $scope.price_range.MaximumPrice;
-    params += '&MinimumPrice=' + $scope.price_range.MinimumPrice;
+    params += ($scope.price_range.MaximumPrice) ? '&MaximumPrice=' + $scope.price_range.MaximumPrice : '';
+    params += ($scope.price_range.MinimumPrice) ? '&MinimumPrice=' + $scope.price_range.MinimumPrice : '';
     params += ($scope.sort_by) ? '&Sort=' + $scope.sort_by : '';
     params += ($scope.condition) ? '&Condition=' + $scope.condition : '';
 

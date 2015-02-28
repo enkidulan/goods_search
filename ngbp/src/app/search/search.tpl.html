@@ -38,14 +38,22 @@
 <div class="row">
 
   <!-- Begin min/max price filtering -->
-  <div class="col-md-offset-3 col-md-3">
-      <slider floor="0" ceiling="1000" ng-model-low="price_range.MinimumPrice" ng-model-high="price_range.MaximumPrice"></slider>
-      <span class="price">Price: From {{price_range.MinimumPrice}} to {{price_range.MaximumPrice}}</span>
+  <div class="col-md-offset-4 col-md-5">
+
+
+    <div class="input-group input-group-sm">
+      <span class="input-group-addon" id="sizing-addon3">Price from:</span>
+      <input type="number" ng-model="price_range.MinimumPrice" class="form-control" placeholder="" aria-describedby="sizing-addon3">
+      <span class="input-group-addon" id="sizing-addon3">Price to:</span>
+      <input type="number" ng-model="price_range.MaximumPrice" class="form-control" placeholder="" aria-describedby="sizing-addon3">
+    </div>
+
+
   </div>
   <!-- End min/max price filtering -->
 
-  <!-- Begin sorting -->
-  <div class="col-md-3">
+  <!-- Begin condition filtering -->
+<!--   <div class="col-md-3">
     <div class="btn-group pull-right" dropdown>
       <button type="button" class="btn btn-primary">Condition: {{avalivable_conditions[condition]}}</button>
       <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
@@ -59,8 +67,8 @@
         </li>
       </ul>
     </div>
-  </div>
-  <!-- End sorting -->
+  </div> -->
+  <!-- End condition filtering -->
 
   <!-- Begin sorting -->
   <div class="col-md-3">
