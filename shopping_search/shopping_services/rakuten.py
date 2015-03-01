@@ -102,11 +102,13 @@ def search(category, keywords, maximum_price,
 
 
 def extract_data(product):
+    if not product.get('itemCode'):
+        return
     data = {
         'service': 'rakuten',
         'price': product.get('itemPrice'),
         'image': product.get('mediumImageUrls', [])[0],
-        'ASIN': product.get('itemCode') or str(uuid4()),
+        'ASIN': product.get('itemCode'),
         # 'ProductId': product['itemCode'],
         'DetailPageURL': product.get('itemUrl'),
         'Label': product.get('itemCaption'),

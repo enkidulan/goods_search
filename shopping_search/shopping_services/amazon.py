@@ -22,11 +22,13 @@ class SafeDetailsGetter(object):
 
 def extract_data(product):
     pr_getter = SafeDetailsGetter(product)
+    if not pr_getter('ASIN.text'):
+        return
     data = {
         'service': 'amazon',
         'price': pr_getter('OfferSummary.LowestNewPrice.FormattedPrice.text'),
         'image': pr_getter('MediumImage.URL.text'),
-        'ASIN': pr_getter('ASIN.text') or str(uuid4()),
+        'ASIN': pr_getter('ASIN.text'),
         'DetailPageURL': pr_getter('DetailPageURL.text'),
         'Label': pr_getter('ItemAttributes.Label.text'),
         'ProductGroup': pr_getter('ItemAttributes.ProductGroup.text'),
@@ -44,7 +46,7 @@ def extract_data(product):
         'EditorialReview': [
             {'value': i.Content.text,
              'name': i.Source.text}
-            for i in pr_getter('EditorialReviews.EditorialReview')]
+            for i in pr_getter('EditorialReviews.EditorialReview') or []]
     }
     return data
 

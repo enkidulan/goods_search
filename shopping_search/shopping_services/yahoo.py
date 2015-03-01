@@ -33,15 +33,15 @@ def search(category, keywords, maximum_price,
 def extract_data(product):
     if not isinstance(product, dict):
         return
-    if product.get('ProductId') is None:
+    if not product.get('Code'):
         return
     data = {
         'service': 'yahoo',
         'price': " ".join([product.get('Price', {}).get('_attributes', {}).get('currency', None),
                            product.get('Price', {}).get('_value', None)]),
         'image': product.get('Image', {}).get('Medium'),
-        'ASIN': product.get('ProductId', str(uuid4())),
-        'ProductId': product.get('ProductId'),
+        'ASIN': product.get('Code'),
+        # 'ProductId': product.get('ProductId'),
         'DetailPageURL': product.get('Url'),
         'Label': product.get('Description'),
         'ProductGroup': product.get('Category', {}).get('Current', {}).get('Name'),
