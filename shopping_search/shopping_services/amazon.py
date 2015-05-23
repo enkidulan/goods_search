@@ -67,8 +67,10 @@ def search(category, keywords, maximum_price,
     if sort is not None:
         params['Sort'] = sort
 
+    params['BrowseNode'] = category
+
     results = amazon.item_search(
-        category,
+        "SportingGoods",
         **params
     )
     response_data = []

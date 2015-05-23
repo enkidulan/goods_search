@@ -48,7 +48,13 @@
     # 558885  # '靴'  # Shoes
     # 558929  # '腕時計'  # Watch
 
-
+# fishing base categories
+#
+Fishing:
+    Title: Fishing
+    amazon: 14315521
+    yahoo: 2660
+    rakuten: 111961
 All:
     Title: All
     amazon: All
