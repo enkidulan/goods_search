@@ -122,6 +122,11 @@ To start djnago server run command
 
     bin/django runserver
 
+or use gunicorn as wsgi server:
+
+.. code:: bash
+
+    env DJANGO_SETTINGS_MODULE=shopping_search.production bin/gunicorn shopping_search.wsgi
 
 If you want to play around frontend then read ngbp instruction. In most cases
 if would be enough to have buildout built in development and run following
