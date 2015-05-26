@@ -140,4 +140,10 @@ commands:
 After it you can edit front-end sources which is located in *ngbp/build/src*
 folder.
 
+**********************
+Choosing site template
+**********************
 
+Set option 'use' in '[templates]' section in your buildout.cfg. List of the
+available templates you can find in profiles/base.cfg in [templates]
+section, use one of 'registry' names (animation_store, ...)

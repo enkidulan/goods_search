@@ -16,3 +16,7 @@ appid =
 
 [rakuten_config]
 applicationId =
+
+
+[templates]
+use =
