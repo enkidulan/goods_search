@@ -6,7 +6,7 @@ from itertools import chain
 yahoo = YahooShoppingAPI(**SERVICES_CONFIG['yahoo'])
 
 
-def search(category, keywords, maximum_price,
+def search(search_root, category, keywords, maximum_price,
            minimum_price, sort, condition, is_preview):
 
     params = dict(

@@ -18,11 +18,10 @@ def searvise_search(request, service_name, service_search_func, result):
         'sort': request.GET.get('Sort', None),
         'condition': request.GET.get('Condition', None),
         'is_preview': request.GET.get('preview', False),
-        'category': CATEGORIES[
-                'Fishing'][service_name]
-                # request.GET.get('SearchIndex', 'All')][service_name]
+        'search_root': CATEGORIES['SearchRoot'][service_name],
+        'category': CATEGORIES['Fishing'][service_name]
+        #'category': request.GET.get('SearchIndex', 'All')][service_name]
     }
-    print(params)
     result.put(service_search_func(**params))
 
 

@@ -1,157 +1,16 @@
-# Unused yahoo categories
-    # 2513  # 'レジャー、アウトドア'  # Leisure, outdoor
-    # 2506  # '家具、インテリア'  # Furniture, interior
-    # 2514  # '自転車、車、バイク'  # Bicycle, car, bike
-    # 2503  # 'DIY、工具、文具'  # DIY, tools, stationery
-    # 2507  # '花、ガーデニング'  # Flowers, gardening
-    # 2504  # 'AV機器、カメラ'  # AV equipment, camera
+SearchRoot:
+    amazon: SportingGoods
+    yahoo:
+    rakuten:
 
-# Unmapped amazon categories:
-    # VHS
-    # Video
-    # VideoDownload
-    # VideoGames
-    # Watches
-    # Blended
-    # Classical
-    # ForeignBooks
-    # GiftCards
-    # HomeImprovement
-    # Jewelry
-    # KindleStore
-    # MP3Downloads
-    # MobileApps
-    # Shoes
-    # Software
-    # OfficeProducts
-
-# Unused rakuten categories
-    # 100804  # 'インテリア・寝具・収納'  # Home Decor, Bedding & Shelves
-    # 215783  # '日用品雑貨・文房具・手芸'  # Daily necessities Goods & Stationery Handicraft
-    # 216129  # 'ジュエリー・アクセサリー'  # Jewelry & Accessories
-    # 100316  # '水・ソフトドリンク'  # Water and soft drinks
-    # 216131  # 'バッグ・小物・ブランド雑貨'  # Bags, Accessories & Designer Items
-    # 100371  # 'レディースファッション'  # Women's Clothing
-    # 100005  # '花・ガーデン・DIY'  # Flowers, Garden · DIY
-    # 211742  # 'TV・オーディオ・カメラ'  # TV · audio camera
-    # 101114  # '車・バイク'  # Car-bike
-    # 101381  # '旅行・出張・チケット'  # Travel and business trip ticket
-    # 101438  # '学び・サービス・保険'  # Learning Services Insurance
-    # 100000  # '百貨店・総合通販・ギフト'  # Department stores, general mail order gift
-    # 402853  # 'デジタルコンテンツ'  # Digital contents
-    # 503190  # '車用品・バイク用品'  # Car parts & Accessories
-    # 100433  # 'インナー・下着・ナイトウエア'  # Underwear & Nightwear
-    # 510901  # '日本酒・焼酎'  # Sake, shochu
-    # 510915  # 'ビール・洋酒'  # Alcohol
-    # 551167  # 'スイーツ・お菓子'  # Sweets candy
-    # 551169  # '医薬品・コンタクト・介護'  # Medicine & Nursing Care
-    # 558885  # '靴'  # Shoes
-    # 558929  # '腕時計'  # Watch
-
-# fishing base categories
-#
 Fishing:
     Title: Fishing
     amazon: 14315521
     yahoo: 2660
     rakuten: 111961
-All:
-    Title: All
-    amazon: All
-    yahoo: 1  # 'All'  # All
-    rakuten: 0  # All
-Apparel:
-    Title: Apparel
-    amazon: Apparel
-    yahoo: 13457  # 'ファッション'  # Fashion
-    rakuten: 551177  # 'メンズファッション'  # Men's Fashion
-Appliances:
-    Title: Appliances
-    amazon: Appliances
-    yahoo: 2505  # '家電'  # Consumer electronics
-    rakuten: 564500  # 'スマートフォン・タブレット' # Smartphone tablet
-Automotive:
-    Title: Automotive
-    amazon: Automotive
-    yahoo: 2511  # 'ゲーム、おもちゃ'  # Games, toys
-    rakuten: 101164  # 'おもちゃ・ホビー・ゲーム'  # Toys, Hobbies & Games
-Baby:
-    Title: Baby
-    amazon: Baby
-    yahoo: 2497  # 'ベビー、キッズ、マタニティ'  # Baby, Kids, Maternity
-    rakuten: 100533  # 'キッズ・ベビー・マタニティ'  # Kids, Baby & Maternity
-Beauty:
-    Title: Beauty
-    amazon: Beauty
-    yahoo: 2501  # 'コスメ、香水'  # Cosmetics, perfume
-    rakuten: 100939  # '美容・コスメ・香水'  # Beauty & Cosmetics
-Books:
-    Title: Books
-    amazon: Books
-    yahoo: 10002  # '本、雑誌、コミック'  # Books, magazines, comics
-    rakuten: 200162  # '本・雑誌・コミック'  # Books, magazines and comics
-DVD:
-    Title: DVD
-    amazon: DVD
-    yahoo: 2517  # 'DVD、映像ソフト'  # DVD, video software
-    rakuten: 101240  # 'CD・DVD・楽器'  # CD · DVD · Musical Instruments
-Electronics:
-    Title: Electronics
-    amazon: Electronics
-    yahoo: 2505  # '家電'  # Consumer electronics
-    rakuten: 562637  # '家電'  # Consumer electronics
-Grocery:
-    Title: Grocery
-    amazon: Grocery
-    yahoo: 2498  # '食品'  # Food
-    rakuten: 100227  # '食品'  # Food
-HealthPersonalCare:
-    Title: HealthPerson
-    amazon: HealthPerson
-    yahoo: 2500  # 'ダイエット、健康' # Diet, health
-    rakuten: 100938  # 'ダイエット・健康'  # Diet and health
-Hobbies:
-    Title: Hobbies
-    amazon: Hobbies
-    yahoo: 2510  # '楽器、趣味、学習'  # Musical instruments, hobby, learning
-    rakuten: 101164  # 'おもちゃ・ホビー・ゲーム'  # Toys, Hobbies & Games
-Kitchen:
-    Title: Kitchen
-    amazon: Kitchen
-    yahoo: 2508  # 'キッチン、生活雑貨、日用品'  # Kitchen, household goods, daily necessities
-    rakuten: 558944  # 'キッチン用品・食器・調理器具'  # Kitchenware, Cookware & Tools
-Music:
-    Title: Music
-    amazon: Music
-    yahoo: 2516  # 'CD、音楽ソフト、チケット'  # CD, music software, ticket
-    rakuten: 101240  # 'CD・DVD・楽器'  # CD · DVD · Musical Instruments
-MusicTracks:
-    Title: MusicTracks
-    amazon: MusicTracks
-    yahoo: 2516  # 'CD、音楽ソフト、チケット'  # CD, music software, ticket
-    rakuten: 101240  # 'CD・DVD・楽器'  # CD · DVD · Musical Instruments
-MusicalInstruments:
-    Title: MusicalInstr
-    amazon: MusicalInstr
-    yahoo: 2510  # '楽器、趣味、学習'  # Musical instruments, hobby, learning
-    rakuten: 101240  # 'CD・DVD・楽器'  # CD · DVD · Musical Instruments
-PCHardware:
-    Title: PCHardware
-    amazon: PCHardware
-    yahoo: 2502  # 'パソコン、周辺機器'  # PC, peripherals
-    rakuten: 100026  # 'パソコン・周辺機器'  # PCs and Peripherals
-PetSupplies:
-    Title: PetSupplies
-    amazon: PetSupplies
-    yahoo: 2509  # 'ペット用品、生き物'  # Pet Supplies, creatures
-    rakuten: 101213  # 'ペット・ペットグッズ'  # Pet Food & Supplies
-SportingGoods:
-    Title: SportingGood
-    amazon: SportingGood
-    yahoo: 2512  # 'スポーツ'  # Sport
-    rakuten: 101070  # 'スポーツ・アウトドア'  # Sports & Outdoor
-Toys:
-    Title: Toys
-    amazon: Toys
-    yahoo: 2511  # 'ゲーム、おもちゃ'  # Games, toys
-    rakuten: 101164  # 'おもちゃ・ホビー・ゲーム'  # Toys, Hobbies & Games
+
+Golf:
+    Title: Golf
+    amazon: 14315441
+    yahoo: 3059
+    rakuten: 101077

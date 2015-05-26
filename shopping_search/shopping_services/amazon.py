@@ -51,7 +51,7 @@ def extract_data(product):
     return data
 
 
-def search(category, keywords, maximum_price,
+def search(search_root, category, keywords, maximum_price,
            minimum_price, sort, condition, is_preview):
     params = dict(
         Keywords=keywords,
@@ -69,10 +69,8 @@ def search(category, keywords, maximum_price,
 
     params['BrowseNode'] = category
 
-    results = amazon.item_search(
-        "SportingGoods",
-        **params
-    )
+    results = amazon.item_search(search_root, **params)
+
     response_data = []
     for i, product in enumerate(results):
         data = extract_data(product)

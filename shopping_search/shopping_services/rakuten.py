@@ -7,7 +7,7 @@ from rakutenichiba import RakutenIchibaAPI
 rakuten = RakutenIchibaAPI(**SERVICES_CONFIG['rakuten'])
 
 
-def search(category, keywords, maximum_price,
+def search(search_root, category, keywords, maximum_price,
            minimum_price, sort, condition, is_preview):
     params = dict(
         genreId=category,
