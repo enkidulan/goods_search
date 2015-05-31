@@ -15,3 +15,5 @@ __pycache__
 buildout.cfg
 ngbp/bin
 src/
+develop-eggs/
+shopping_services.log
