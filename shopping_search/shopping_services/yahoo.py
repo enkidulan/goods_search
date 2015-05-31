@@ -1,14 +1,18 @@
+"""
+Search handled for Yahoo Shopping service
+"""
 from yahoowebapi.shopping_web_service import YahooShoppingAPI
 from shopping_search.settings import SERVICES_CONFIG
-from uuid import uuid4
-from itertools import chain
 
-yahoo = YahooShoppingAPI(**SERVICES_CONFIG['yahoo'])
+YAHOO = YahooShoppingAPI(**SERVICES_CONFIG['yahoo'])
 
 
-def search(search_root, category, keywords, maximum_price,
-           minimum_price, sort, condition, is_preview):
-
+# pylint: disable=too-many-arguments
+def search(category, keywords, maximum_price,
+           minimum_price, sort, page):
+    """
+    Performs Search. Returns 100 results per page.
+    """
     params = dict(
         category_id=category,
         query=keywords,
@@ -21,16 +25,18 @@ def search(search_root, category, keywords, maximum_price,
     if sort is not None:
         params['sort'] = sort
 
-    results = []
-    for i in range(1 if is_preview else 10):
-        result = yahoo.product_search(hits=50, offset=50*i, **params)
-        result = map(extract_data, result['ResultSet']['0']['Result'].values())
-        results.append(result)
-    responce = tuple(filter(None, chain(*results)))
+    hits = 100
+    # pylint: disable=bad-builtin
+    result = YAHOO.product_search(hits=hits, offset=page*hits, **params)
+    results = map(extract_data, result['ResultSet']['0']['Result'].values())
+    responce = tuple(filter(None, results))
     return responce
 
 
 def extract_data(product):
+    """
+    Extracts data from search result item
+    """
     if not isinstance(product, dict):
         return
     if not product.get('Code'):

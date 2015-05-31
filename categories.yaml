@@ -1,11 +1,10 @@
-SearchRoot:
-    amazon: SportingGoods
-    yahoo:
-    rakuten:
+SearchRoot: Fishing
 
 Fishing:
     Title: Fishing
-    amazon: 14315521
+    amazon:
+        root: SportingGoods
+        node: 14315521
     yahoo: 2660
     rakuten: 111961
 

@@ -1,14 +1,21 @@
+"""
+Search handled for Rakuten Shopping service
+"""
 from shopping_search.settings import SERVICES_CONFIG
 
 from itertools import chain
 from rakutenichiba import RakutenIchibaAPI
 
 
-rakuten = RakutenIchibaAPI(**SERVICES_CONFIG['rakuten'])
+RAKUTEN = RakutenIchibaAPI(**SERVICES_CONFIG['rakuten'])
 
 
-def search(search_root, category, keywords, maximum_price,
-           minimum_price, sort, condition, is_preview):
+# pylint: disable=too-many-arguments
+def search(category, keywords, maximum_price,
+           minimum_price, sort, page):
+    """
+    Performs Search. Returns 100 results per page
+    """
     params = dict(
         genreId=category,
         keyword=keywords
@@ -20,9 +27,11 @@ def search(search_root, category, keywords, maximum_price,
     if sort is not None:
         params['sort'] = '+itemPrice' if sort == 'price' else '-itemPrice'
 
+    # lets load 100 search results
     results = []
-    for i in range(1 if is_preview else 10):
-        result = rakuten.item_search(hits=30, page=i+1, **params)
+    # pylint: disable=bad-builtin
+    for i in range(page, page + 4):
+        result = RAKUTEN.item_search(hits=25, page=i+1, **params)
         result = map(extract_data, result.get('Items', []))
         results.append(result)
     responce = tuple(filter(None, chain(*results)))
@@ -30,6 +39,9 @@ def search(search_root, category, keywords, maximum_price,
 
 
 def extract_data(product):
+    """
+    Extracts data from search result item
+    """
     if not product.get('itemCode'):
         return
     image = product.get('mediumImageUrls', None)
@@ -47,7 +59,7 @@ def extract_data(product):
         'ProductGroup': product.get('genreId'),  # get it name to display
         'Title': product.get('itemName'),
         'Manufacturer': product.get('shopName'),
-        'CustomerReviews': product.get('itemUrl'),  # XXX: no such thing
+        'CustomerReviews': product.get('itemUrl'),  # INFO: no such thing
         'images': [
             {'SmallImage': small,
              'LargeImage': small.rsplit('?', 1)[0]}
