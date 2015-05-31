@@ -3,6 +3,9 @@ Search handled for Amazon Shopping service
 """
 from amazonproduct import API
 from shopping_search.settings import SERVICES_CONFIG
+from shopping_search.shopping_services.utils import IS_DATA_VALID
+import logging
+LOGGER = logging.getLogger(__name__)
 
 
 AMAZON = API(cfg=SERVICES_CONFIG['amazon'])
@@ -32,11 +35,13 @@ def extract_data(product):
     pr_getter = SafeDetailsGetter(product)
     if not pr_getter('ASIN.text'):
         return
+    price = pr_getter('OfferSummary.LowestNewPrice.Amount.text')
     data = {
         'service': 'amazon',
-        'price': pr_getter('OfferSummary.LowestNewPrice.FormattedPrice.text'),
+        'currency': pr_getter('OfferSummary.LowestNewPrice.CurrencyCode.text'),
+        'price': price and int(price) or price,
         'image': pr_getter('MediumImage.URL.text'),
-        'ASIN': pr_getter('ASIN.text'),
+        'id': pr_getter('ASIN.text'),
         'DetailPageURL': pr_getter('DetailPageURL.text'),
         'Label': pr_getter('ItemAttributes.Label.text'),
         'ProductGroup': pr_getter('ItemAttributes.ProductGroup.text'),
@@ -57,6 +62,7 @@ def extract_data(product):
             for i in pr_getter('EditorialReviews.EditorialReview') or []]
     }
     return data
+
 
 # pylint: disable=too-many-arguments
 def search(category, keywords, maximum_price,
@@ -85,9 +91,10 @@ def search(category, keywords, maximum_price,
     response_data = []
     for product in results:
         data = extract_data(product)
-        if data is None:
+        if not IS_DATA_VALID(data):
             continue
         response_data.append(data)
         if len(response_data) >= 10:
             break
+    LOGGER.debug('Found %s results', len(response_data))
     return response_data

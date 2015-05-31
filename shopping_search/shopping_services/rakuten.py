@@ -5,6 +5,9 @@ from shopping_search.settings import SERVICES_CONFIG
 
 from itertools import chain
 from rakutenichiba import RakutenIchibaAPI
+from shopping_search.shopping_services.utils import IS_DATA_VALID
+import logging
+LOGGER = logging.getLogger(__name__)
 
 
 RAKUTEN = RakutenIchibaAPI(**SERVICES_CONFIG['rakuten'])
@@ -34,7 +37,8 @@ def search(category, keywords, maximum_price,
         result = RAKUTEN.item_search(hits=25, page=i+1, **params)
         result = map(extract_data, result.get('Items', []))
         results.append(result)
-    responce = tuple(filter(None, chain(*results)))
+    responce = tuple(filter(IS_DATA_VALID, chain(*results)))
+    LOGGER.debug('Found %s results', len(responce))
     return responce
 
 
@@ -42,24 +46,26 @@ def extract_data(product):
     """
     Extracts data from search result item
     """
-    if not product.get('itemCode'):
+    if not isinstance(product, dict) and product:
         return
     image = product.get('mediumImageUrls', None)
+    price = product.get('itemPrice', None)
     data = {
         'service': 'rakuten',
-        'price': product.get('itemPrice'),
+        'currency': None,
+        'price': price and int(price) or price,
         'image': image[0] if image else 0,
-        'ASIN': product.get('itemCode'),
-        # 'ProductId': product['itemCode'],
-        'DetailPageURL': product.get('itemUrl'),
-        'Label': product.get('itemCaption'),
+        'id': product.get('itemCode', None),
+        # 'ProductId': product['itemCode', None],
+        'DetailPageURL': product.get('itemUrl', None),
+        'Label': product.get('itemCaption', None),
         'EditorialReview': [
             {'name': 'Description',
-             'value': product.get('itemCaption')}],
-        'ProductGroup': product.get('genreId'),  # get it name to display
-        'Title': product.get('itemName'),
-        'Manufacturer': product.get('shopName'),
-        'CustomerReviews': product.get('itemUrl'),  # INFO: no such thing
+             'value': product.get('itemCaption', None)}],
+        'ProductGroup': product.get('genreId', None),  # get it name to display
+        'Title': product.get('itemName', None),
+        'Manufacturer': product.get('shopName', None),
+        'CustomerReviews': product.get('itemUrl', None),  # INFO: no such thing
         'images': [
             {'SmallImage': small,
              'LargeImage': small.rsplit('?', 1)[0]}

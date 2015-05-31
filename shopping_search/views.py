@@ -12,6 +12,9 @@ import queue
 import itertools
 import codecs
 from copy import copy
+import operator
+import logging
+LOGGER = logging.getLogger(__name__)
 
 
 def parse_request_params(request):
@@ -44,8 +47,15 @@ def list_simple_merge(lists, sort_key):
     Results merging function, merges results from different services into one
     list based on sorting params.
     """
-    results = [i for i in itertools.chain(*itertools.zip_longest(*lists)) if i]
-    results.sort(key=sort_key)
+    if not sort_key:
+        return [i for i in itertools.chain(*itertools.zip_longest(*lists)) if i]
+    results = [j for i in lists for j in i if j]
+    # import pdb; pdb.set_trace()
+    reverse = False
+    if sort_key.startswith('-'):
+        reverse = True
+        sort_key = sort_key[1:]
+    results.sort(key=operator.itemgetter(sort_key), reverse=reverse)
     return results
 
 
@@ -79,6 +89,7 @@ def search(request):
          'yahoo': yahoo_search,
          'rakuten': rakuten_search}
     )
+    LOGGER.debug('Responding with %s results', len(results))
     data = json.dumps(results)
     data = codecs.encode(data)
     return HttpResponse(data, content_type="application/json")
