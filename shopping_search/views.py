@@ -18,14 +18,23 @@ LOGGER = logging.getLogger(__name__)
 
 
 class DummyParamsCrypter(object):
+    """
+    Simple class for crypting services pages info
+    """
     def __init__(self, keys):
         self.keys = keys
 
     def encrypt(self, dict_like_obj):
+        """
+        encrypt pages info
+        """
         values = (str(dict_like_obj[k]) for k in self.keys)
         return ':'.join(values)
 
     def decrypt(self, value):
+        """
+        decrypt pages info
+        """
         return {k: int(v) for k, v in zip(self.keys, value.split(':'))}
 
 
