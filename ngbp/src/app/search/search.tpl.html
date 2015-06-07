@@ -2,12 +2,12 @@
 <div class="row">
   <form name="searchForm" ng-submit="search()">
   <div class="input-group input-group-lg">
-    <span class="input-group-btn">
+    <!-- <span class="input-group-btn">
         <a class="btn btn-default" ng-click="isCollapsed = !isCollapsed"
            href>
             {{(category !== null)? 'Category: ' + category : 'Category'}}
         </a>
-    </span>
+    </span> -->
       <input ng-model="keywords" type="text" class="form-control">
       <span class="input-group-btn">
           <button type="submit" class="btn btn-default">Search</button>
@@ -18,7 +18,7 @@
 <!-- End search form  -->
 
 <!-- Begin Categories list -->
-<div class="row">
+<!-- <div class="row">
   <div collapse="isCollapsed" class="categories">
     <div class="well well-sm">
       <div class="row">
@@ -29,7 +29,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- END Categories list -->
 
  <hr />

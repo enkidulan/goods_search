@@ -17,6 +17,21 @@ import logging
 LOGGER = logging.getLogger(__name__)
 
 
+class DummyParamsCrypter(object):
+    def __init__(self, keys):
+        self.keys = keys
+
+    def encrypt(self, dict_like_obj):
+        values = (str(dict_like_obj[k]) for k in self.keys)
+        return ':'.join(values)
+
+    def decrypt(self, value):
+        return {k: int(v) for k, v in zip(self.keys, value.split(':'))}
+
+
+CRYPTER = DummyParamsCrypter(('amazon', 'yahoo', 'rakuten'))
+
+
 def parse_request_params(request):
     """
     Parses request for required params and returns it.
@@ -26,9 +41,12 @@ def parse_request_params(request):
         'maximum_price': request.GET.get('MaximumPrice', None),
         'minimum_price': request.GET.get('MinimumPrice', None),
         'sort': request.GET.get('Sort', None),
-        'page': request.GET.get('page', 0),
+        'page': request.GET.get('page', 'null'),
         'category': request.GET.get('Category', None),
     }
+    params['page'] = CRYPTER.decrypt(params['page']) \
+        if params['page'] != 'null' \
+        else {'amazon': 0, 'yahoo': 0, 'rakuten': 0}
     return params
 
 
@@ -39,24 +57,32 @@ def searvise_search(params, service_name, service_search_func, result):
     search_root = CATEGORIES[CATEGORIES['SearchRoot']]
     params['category'] = CATEGORIES.get(
         params['category'], search_root).get(service_name, None)
-    result.put(service_search_func(**params))
+    params['page'] = params['page'][service_name]
+    LOGGER.debug(
+        'Looking on %s service, starting from page %s',
+        service_name, params['page'])
+    data = service_search_func(**params)
+    LOGGER.debug('Found %s results on %s service', len(data), service_name)
+    result.put(data)
 
 
-def list_simple_merge(lists, sort_key):
+def merge_results(lists, sort_key, pages):
     """
     Results merging function, merges results from different services into one
     list based on sorting params.
     """
+    # RFE: add smart pagination
+    for page in ('amazon', 'yahoo', 'rakuten'):
+        pages[page] += 1
     if not sort_key:
-        return [i for i in itertools.chain(*itertools.zip_longest(*lists)) if i]
+        return pages, filter(None, itertools.chain(*itertools.zip_longest(*lists)))
     results = [j for i in lists for j in i if j]
-    # import pdb; pdb.set_trace()
     reverse = False
     if sort_key.startswith('-'):
         reverse = True
         sort_key = sort_key[1:]
     results.sort(key=operator.itemgetter(sort_key), reverse=reverse)
-    return results
+    return pages, results
 
 
 def services_merging_search(request, services):
@@ -76,20 +102,23 @@ def services_merging_search(request, services):
         thread.start()
     for thread in threads:
         thread.join()
-    return tuple(list_simple_merge(result.queue, params['sort']))
+    page, results = merge_results(result.queue, params['sort'], params['page'])
+    return page, tuple(results)
 
 
 def search(request):
     """
     View that performs search
     """
-    results = services_merging_search(
+    page, results = services_merging_search(
         request,
         {'amazon': amazon_search,
          'yahoo': yahoo_search,
          'rakuten': rakuten_search}
     )
+    page = CRYPTER.encrypt(page)
     LOGGER.debug('Responding with %s results', len(results))
-    data = json.dumps(results)
+    data = {'page': page, 'results': results}
+    data = json.dumps(data)
     data = codecs.encode(data)
     return HttpResponse(data, content_type="application/json")

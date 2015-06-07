@@ -6,8 +6,8 @@ from shopping_search.settings import SERVICES_CONFIG
 from itertools import chain
 from rakutenichiba import RakutenIchibaAPI
 from shopping_search.shopping_services.utils import IS_DATA_VALID
-import logging
-LOGGER = logging.getLogger(__name__)
+# import logging
+# LOGGER = logging.getLogger(__name__)
 
 
 RAKUTEN = RakutenIchibaAPI(**SERVICES_CONFIG['rakuten'])
@@ -30,6 +30,10 @@ def search(category, keywords, maximum_price,
     if sort is not None:
         params['sort'] = '+itemPrice' if sort == 'price' else '-itemPrice'
 
+    # we threat 100 results as 1 page which equals to 4 pages
+    # on current API search request
+    page = page * 4
+
     # lets load 100 search results
     results = []
     # pylint: disable=bad-builtin
@@ -38,7 +42,6 @@ def search(category, keywords, maximum_price,
         result = map(extract_data, result.get('Items', []))
         results.append(result)
     responce = tuple(filter(IS_DATA_VALID, chain(*results)))
-    LOGGER.debug('Found %s results', len(responce))
     return responce
 
 

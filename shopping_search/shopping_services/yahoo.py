@@ -4,8 +4,8 @@ Search handled for Yahoo Shopping service
 from yahoowebapi.shopping_web_service import YahooShoppingAPI
 from shopping_search.settings import SERVICES_CONFIG
 from shopping_search.shopping_services.utils import IS_DATA_VALID
-import logging
-LOGGER = logging.getLogger(__name__)
+# import logging
+# LOGGER = logging.getLogger(__name__)
 
 YAHOO = YahooShoppingAPI(**SERVICES_CONFIG['yahoo'])
 
@@ -28,14 +28,20 @@ def search(category, keywords, maximum_price,
     if sort is not None:
         params['sort'] = '+price' if sort == 'price' else '-price'
 
+    # we threat 100 results as 1 page which equals to 4 pages
+    # on current API search request
+    page = page * 4
+
     results = []
     # pylint: disable=bad-builtin
     for i in range(page, page + 4):
         responce = YAHOO.product_search(hits=25, offset=(page + i) * 25, **params)
-        items = responce['ResultSet']['0']['Result'].values()
+        result_set = responce['ResultSet'].get('0', None)
+        if not result_set:
+            break
+        items = result_set['Result'].values()
         for item in filter(IS_DATA_VALID, map(extract_data, items)):
             results.append(item)
-    LOGGER.debug('Found %s results', len(results))
     return results
 
 

@@ -108,6 +108,9 @@ angular.module( 'ngBoilerplate.search', [
     var start = ($scope.pagination.current_page - 1) * $scope.pagination.items_per_page;
     var end = start + $scope.pagination.items_per_page;
     $scope.displayed_results = $rootScope.search_results.slice(start, end);
+    if (($scope.pagination.total_items - start) < 30) {
+      $scope.search(true);
+    }
   };
 
   $scope.avalivable_sorting = {
@@ -118,6 +121,7 @@ angular.module( 'ngBoilerplate.search', [
     '-price': 'Price: Highest first'
   };
   $scope.sort_by = null;
+  $scope.search_page = null;
   $scope.set_sorting_by = function(field){
     $scope.sort_by = field;
     $scope.search();
@@ -176,7 +180,7 @@ angular.module( 'ngBoilerplate.search', [
   $scope.search_promice = null;
   $scope.pagination_promice = null;
 
-  $scope.search = function() {
+  $scope.search = function(extend) {
     var params = '';
     params += '?Keywords=' + $scope.keywords;
     params += '&SearchIndex=' + $scope.category;
@@ -184,24 +188,30 @@ angular.module( 'ngBoilerplate.search', [
     params += ($scope.price_range.MinimumPrice) ? '&MinimumPrice=' + $scope.price_range.MinimumPrice : '';
     params += ($scope.sort_by) ? '&Sort=' + $scope.sort_by : '';
     params += ($scope.condition) ? '&Condition=' + $scope.condition : '';
+    params += '&page=' + $scope.search_page;
 
     if ($scope.keywords) {
       $state.go('search.results');
-      $scope.search_promice = $http.get('/search' + params + '&preview=true').
-          success(function(data, status, headers, config) {
-            $rootScope.search_results = data;
-            $scope.pagination.total_items = 100;
-            $scope.pagination.current_page = 1;
-            $scope.displayed_results = $rootScope.search_results.slice(0, $scope.pagination.items_per_page);
-            $scope.pagination_promice = $http.get('/search' + params).
-              success(function(data, status, headers, config) {
-                $rootScope.search_results = data;
+      var promice = $http.get('/search' + params);
+      if (typeof extend === 'undefined'){
+          $scope.search_promice = promice;
+      } else {
+          $scope.pagination_promice = promice;
+      }
+      promice.success(function(data, status, headers, config) {
+            if (typeof extend === 'undefined'){
+                $scope.search_page = data.page;
+                $rootScope.search_results = data.results;
                 $scope.pagination.total_items = $rootScope.search_results.length;
-                // this callback will be called asynchronously
-                // when the response is available
-              });
-            // this callback will be called asynchronously
-            // when the response is available
+                $scope.pagination.current_page = 1;
+                $scope.displayed_results = $rootScope.search_results.slice(0, $scope.pagination.items_per_page);
+            } else {
+                $scope.search_page = data.page;
+                for (var i in data.results){
+                    $rootScope.search_results.push(data.results[i]);
+                }
+                $scope.pagination.total_items += $rootScope.search_results.length;
+            }
           }).
           error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
