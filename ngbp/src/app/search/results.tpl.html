@@ -8,7 +8,7 @@
     <div class="list-group">
       <a href
          class="list-group-item"
-         ng-repeat="item in displayed_results"
+         ng-repeat="item in displayed_results track by $index"
          ui-sref="search.item({ id: item.ASIN })">
          <search-result-item item="item"></search-result-item>
       </a>
