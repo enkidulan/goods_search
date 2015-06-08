@@ -41,7 +41,7 @@ def search(category, keywords, maximum_price,
         result = RAKUTEN.item_search(hits=25, page=i+1, **params)
         result = map(extract_data, result.get('Items', []))
         results.append(result)
-    responce = tuple(filter(IS_DATA_VALID, chain(*results)))
+    responce = list(filter(IS_DATA_VALID, chain(*results)))
     return responce
 
 

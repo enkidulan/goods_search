@@ -10,9 +10,10 @@ from shopping_search.shopping_services.rakuten import search as rakuten_search
 import threading
 import queue
 import itertools
+import heapq
 import codecs
 from copy import copy
-import operator
+from operator import itemgetter, ge, le, lt, gt
 import logging
 LOGGER = logging.getLogger(__name__)
 
@@ -72,25 +73,48 @@ def searvise_search(params, service_name, service_search_func, result):
         service_name, params['page'])
     data = service_search_func(**params)
     LOGGER.debug('Found %s results on %s service', len(data), service_name)
-    result.put(data)
+    result.put({'service': service_name, 'data': data})
 
 
-def merge_results(lists, sort_key, pages):
+def merge_results(data, sort_key, pages):
     """
     Results merging function, merges results from different services into one
     list based on sorting params.
     """
-    # RFE: add smart pagination
-    for page in ('amazon', 'yahoo', 'rakuten'):
-        pages[page] += 1
+
+    # CLEVER: make more appropriate and cheap dict making
+    lists = dict()
+    for i in data:
+        if not i['data']:
+            continue
+        lists[i['service']] = i['data']
+
     if not sort_key:
-        return pages, filter(None, itertools.chain(*itertools.zip_longest(*lists)))
-    results = [j for i in lists for j in i if j]
+        for service, results in lists.items():
+            pages[service] += 1
+        return pages, (j for i in itertools.zip_longest(*lists.values()) for j in i if j)
     reverse = False
     if sort_key.startswith('-'):
         reverse = True
         sort_key = sort_key[1:]
-    results.sort(key=operator.itemgetter(sort_key), reverse=reverse)
+    for resultset in lists.values():
+        resultset.sort(key=itemgetter(sort_key), reverse=reverse)
+
+    index = -1 if reverse else 0
+    edge_getter = max if reverse else max
+    page_increase_comparator = ge if reverse else le
+    break_comparator = lt if reverse else gt
+
+    edge_value = edge_getter(
+        map(itemgetter(sort_key), map(itemgetter(index), lists.values())))
+    for service, results in lists.items():
+        if page_increase_comparator(results[-1][sort_key], edge_value):
+            pages[service] += 1
+    results = []
+    for result in heapq.merge(*lists.values(), key=itemgetter(sort_key), reverse=reverse):
+        if break_comparator(result.get(sort_key), edge_value):
+            break
+        results.append(result)
     return pages, results
 
 
@@ -111,6 +135,7 @@ def services_merging_search(request, services):
         thread.start()
     for thread in threads:
         thread.join()
+
     page, results = merge_results(result.queue, params['sort'], params['page'])
     return page, tuple(results)
 
