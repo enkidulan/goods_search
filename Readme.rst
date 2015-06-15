@@ -5,7 +5,7 @@ Buildout for Shopping Search project
 Installation notes
 ==================
 
-You need to have python 3.5 or newest to build this environment.
+You need to have python 3.5 or newest to build this environment, also you need to have python2.7 for running tests.
 
 For environment set up zc.buildout is used (https://pypi.python.org/pypi/zc.buildout/2.3.1)
 

@@ -1,0 +1,26 @@
+*** Settings ***
+Library           Selenium2Library
+Variables         chromedriver
+
+*** Variables ***
+${SERVER}         localhost:8000
+${DELAY}          0
+${VALID USER}     demo
+${VALID PASSWORD}    mode
+${LOGIN URL}      http://${SERVER}/
+${WELCOME URL}    http://${SERVER}/welcome.html
+${ERROR URL}      http://${SERVER}/error.html
+
+*** Keywords ***
+Open Browser To Search Page
+    Open Browser    ${LOGIN URL}    Chrome
+    Maximize Browser Window
+    Set Selenium Speed    ${DELAY}
+    Search Page Should Be Open
+
+Search Page Should Be Open
+    Title Should Be    Search | ngBoilerplate
+
+Go To Search Page
+    Go To    ${LOGIN URL}
+    Search Page Should Be Open

@@ -1,0 +1,29 @@
+*** Settings ***
+Suite Setup       Open Browser To Search Page
+Suite Teardown    Close Browser
+Resource          resource.txt
+
+*** Test Cases ***
+Simple Results Search
+    Given visitor opens search page
+    When type in search field "hook"
+    and press search
+    Then he sees results in less then 15 seconds
+    and can paginate at least 40 pages
+
+*** Keywords ***
+Visitor opens search page
+    Go To Search Page
+Type in search field "${word}"
+    Input Text    xpath=//form[@name="searchForm"]//input[@type="text"]    ${word}
+Press search
+    Click Button    Search
+he sees results in less then ${seconds} seconds
+    Wait Until Page Contains Element    //search-result-item    ${seconds}
+can paginate at least ${pages} pages
+    :FOR    ${index}     IN RANGE    ${pages}
+    \    Wait Until Element Is Not Visible  xpath=//div[@class="cg-busy-default-sign"]  40
+    \    Wait Until Page Contains Element    //ul/li[contains(@class, "active")]/a[text()="${index+1}"]   1
+    \    Click Link   xpath=//ul/li/a[text()="Next"]
+    \    Wait Until Page Contains Element    //ul/li[contains(@class, "active")]/a[text()="${index+2}"]   1
+    \    he sees results in less then 1 seconds
