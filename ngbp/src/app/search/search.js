@@ -71,7 +71,7 @@ angular.module( 'ngBoilerplate.search', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'SearchCtrl', function SearchController( $scope, $http, $state, $rootScope, $timeout ) {
+.controller( 'SearchCtrl', function SearchController( $scope, $http, $state, $rootScope, $timeout, $location, $anchorScroll) {
   $scope.categories = [
     'Baby',
     'DVD',
@@ -111,6 +111,9 @@ angular.module( 'ngBoilerplate.search', [
     if (( $rootScope.search_results.length / $scope.pagination.items_per_page - $scope.pagination.current_page) < 2) {
       $scope.query_for_results(true);
     }
+    // scrolling on results top
+    $location.hash('searchForm');
+    $anchorScroll();
   };
 
   $scope.avalivable_sorting = {
