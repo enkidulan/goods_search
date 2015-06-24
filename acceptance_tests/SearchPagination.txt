@@ -21,9 +21,13 @@ Press search
 he sees results in less then ${seconds} seconds
     Wait Until Page Contains Element    //search-result-item    ${seconds}
 can paginate at least ${pages} pages
+    Wait Until Element Is Not Visible  xpath=//div[@class="cg-busy-default-sign"]  40
+    ${clicked on next page digit}=  Set Variable  0
     :FOR    ${index}     IN RANGE    ${pages}
-    \    Wait Until Element Is Not Visible  xpath=//div[@class="cg-busy-default-sign"]  40
+    \    Execute Javascript     window.scrollTo(0,window.document.body.scrollHeight);
     \    Wait Until Page Contains Element    //ul/li[contains(@class, "active")]/a[text()="${index+1}"]   1
-    \    Click Link   xpath=//ul/li/a[text()="Next"]
+    \    Click Link   xpath=//ul/li/a[text()="${index+2}"]|//ul/li[last()-1]/a[text()="..."]
+    \    Wait Until Element Is Not Visible  xpath=//div[@class="cg-busy-default-sign"]  15
+    \    Execute Javascript     window.scrollTo(0,window.document.body.scrollHeight);
     \    Wait Until Page Contains Element    //ul/li[contains(@class, "active")]/a[text()="${index+2}"]   1
     \    he sees results in less then 1 seconds

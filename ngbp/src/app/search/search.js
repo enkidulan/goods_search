@@ -108,8 +108,8 @@ angular.module( 'ngBoilerplate.search', [
     var start = ($scope.pagination.current_page - 1) * $scope.pagination.items_per_page;
     var end = start + $scope.pagination.items_per_page;
     $scope.displayed_results = $rootScope.search_results.slice(start, end);
-    if (($scope.pagination.total_items - start) < 30) {
-      $scope.search(true);
+    if (( $rootScope.search_results.length / $scope.pagination.items_per_page - $scope.pagination.current_page) < 2) {
+      $scope.query_for_results(true);
     }
   };
 
@@ -181,6 +181,11 @@ angular.module( 'ngBoilerplate.search', [
   $scope.pagination_promice = null;
 
   $scope.search = function(extend) {
+    $scope.search_promice = null;
+    $scope.query_for_results(extend);
+  };
+
+  $scope.query_for_results = function(extend) {
     var params = '';
     params += '?Keywords=' + $scope.keywords;
     params += '&SearchIndex=' + $scope.category;
@@ -193,25 +198,25 @@ angular.module( 'ngBoilerplate.search', [
     if ($scope.keywords) {
       $state.go('search.results');
       var promice = $http.get('/search' + params);
-      if (typeof extend === 'undefined'){
+      var isANewSearchRequest = typeof extend === 'undefined';
+      if (isANewSearchRequest){
           $scope.search_promice = promice;
       } else {
           $scope.pagination_promice = promice;
       }
       promice.success(function(data, status, headers, config) {
-            if (typeof extend === 'undefined'){
+            if (isANewSearchRequest){
                 $scope.search_page = data.page;
                 $rootScope.search_results = data.results;
-                $scope.pagination.total_items = $rootScope.search_results.length;
-                $scope.pagination.current_page = 1;
+                // $scope.pagination.current_page = 1;
                 $scope.displayed_results = $rootScope.search_results.slice(0, $scope.pagination.items_per_page);
             } else {
                 $scope.search_page = data.page;
                 for (var i in data.results){
                     $rootScope.search_results.push(data.results[i]);
                 }
-                $scope.pagination.total_items += $rootScope.search_results.length;
             }
+            $scope.pagination.total_items = $rootScope.search_results.length;
           }).
           error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
