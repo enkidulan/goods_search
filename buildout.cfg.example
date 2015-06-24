@@ -3,6 +3,14 @@ extends =
 #     profiles/production.cfg
 #     profiles/devel.cfg
 
+
+# uncomment this if you want your app starts after reboot automatically
+#parts += start_on_reboot
+
+# set up a custom port
+#[services_config]
+#running_port = 5545
+
 [amazon_config]
 access_key =
 secret_key =
@@ -20,3 +28,4 @@ applicationId =
 
 [templates]
 use =
+# fishing_store
