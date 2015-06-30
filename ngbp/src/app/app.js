@@ -2,6 +2,7 @@ angular.module( 'ngBoilerplate', [
   'templates-app',
   'templates-common',
   'ngBoilerplate.search',
+  'ngBoilerplate.product',
   'ui.router',
   'ui.bootstrap',
   'cgBusy'
