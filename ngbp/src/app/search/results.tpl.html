@@ -6,10 +6,9 @@
   </div>
   <div ng-show="displayed_results.length">
     <div id="search_results" class="list-group">
-      <a href
-         class="list-group-item"
+      <a class="list-group-item"
          ng-repeat="item in displayed_results track by $index"
-         ui-sref="search.item({ id: item.ASIN })">
+         ui-sref="product({productId:item.id})">
          <search-result-item item="item"></search-result-item>
       </a>
     </div>

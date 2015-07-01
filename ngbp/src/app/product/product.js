@@ -24,7 +24,7 @@ angular.module( 'ngBoilerplate.product', [
  */
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'product', {
-    url: '/product',
+    url: '/product/:productId',
     views: {
       "main": {
         controller: 'ProductCtrl',
@@ -38,7 +38,27 @@ angular.module( 'ngBoilerplate.product', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'ProductCtrl', function ProductController( $scope ) {
+.controller( 'ProductCtrl', function ProductController( $scope, $stateParams, $rootScope, $sce, $state ) {
+    console.log($state);
+
+    $scope.trustSrc = function(src) {
+      return $sce.trustAsResourceUrl(src);
+    };
+    $scope.trustHTML = function(html) {
+      return $sce.trustAsHtml(html);
+    };
+    $scope.item = null;
+    for (var i in $rootScope.search_results){
+      if ($rootScope.search_results[i].ASIN == $stateParams.id){
+        $scope.item = $rootScope.search_results[i];
+        break;
+      }
+    }
+    $scope.showed_image=$scope.item.images[0];
+    $scope.change_image= function(index){
+      $scope.showed_image=$scope.item.images[index];
+    };
+
 })
 
 ;

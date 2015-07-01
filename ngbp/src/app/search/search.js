@@ -43,16 +43,6 @@ angular.module( 'ngBoilerplate.search', [
           templateUrl: 'search/results.tpl.html'
         }
       }
-  })
-
-  .state( 'search.item', {
-    url: '?id',
-    views: {
-        "": {
-          controller: 'SearchItemCtrl',
-          templateUrl: 'search/item.tpl.html'
-        }
-      }
   });
 
 })
@@ -232,26 +222,6 @@ angular.module( 'ngBoilerplate.search', [
 
 .controller( 'SearchResultsCtrl', function SearchResultsController( $scope, $http, $rootScope ) {
 
-})
-
-.controller( 'SearchItemCtrl', function SearchItemController( $scope, $stateParams, $rootScope, $sce) {
-    $scope.trustSrc = function(src) {
-      return $sce.trustAsResourceUrl(src);
-    };
-    $scope.trustHTML = function(html) {
-      return $sce.trustAsHtml(html);
-    };
-    $scope.item = null;
-    for (var i in $rootScope.search_results){
-      if ($rootScope.search_results[i].ASIN == $stateParams.id){
-        $scope.item = $rootScope.search_results[i];
-        break;
-      }
-    }
-    $scope.showed_image=$scope.item.images[0];
-    $scope.change_image= function(index){
-      $scope.showed_image=$scope.item.images[index];
-    };
 })
 
 ;
